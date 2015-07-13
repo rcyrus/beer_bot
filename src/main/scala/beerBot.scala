@@ -4,7 +4,7 @@ import akka.actor.ActorSystem
 
 object BeerBot{
   def main(args: Array[String]): Unit = {
-    val token = "xoxb-7413056195-DvEweSeRHOzTO7qZhHvxBfAy"
+    val token = ""
     implicit val system = ActorSystem("slack")
     implicit val ec = system.dispatcher
 
