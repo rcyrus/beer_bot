@@ -11,14 +11,17 @@ class BeerAdvocateInfo {
     val searchTerm = "Summit+Extra+Pale+Ale"
 
     val browser = new Browser
-    val docContents = browser.get("http://www.beeradvocate.com/search/?q=" + searchTerm + "&qt=beer")
+    val searchPageContents = browser.get("http://www.beeradvocate.com/search/?q=" + searchTerm + "&qt=beer")
 
-    val foundItems = docContents >> extractor("#ba-content > div", elementList) >> extractor("a", elementList) filter { list => list.nonEmpty }
+    val initSearchResults = searchPageContents >> extractor("#ba-content > div", elementList) >> extractor("a", elementList) filter { list => list.nonEmpty }
 
-    if (foundItems.nonEmpty)
-      foundItems.head foreach println
-    else
-      println("Sorry no results")
+    if (initSearchResults.nonEmpty && initSearchResults.head.length > 1) {
+      val beerInfoElement = initSearchResults.head.head
+
+      val beerUrl = beerInfoElement.attr("href")
+
+    } else
+      println("Sorry I couldn't find any results for that beer. Try to be more specific.")
   }
 
 }

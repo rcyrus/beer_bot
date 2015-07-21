@@ -18,7 +18,7 @@ object BeerBot{
 //    }
 
     val baInfo = new BeerAdvocateInfo
-    baInfo.getBeerInfo("Hello")
+    baInfo.getBeerInfo("Summit Extra Pale Ale")
   }
 }
 
