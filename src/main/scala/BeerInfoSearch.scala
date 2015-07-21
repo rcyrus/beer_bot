@@ -25,8 +25,12 @@ class BeerInfoSearch {
       val baRatingEl = beerPageContents >> extractor(".ba-score", element)
       val styleElements = beerPageContents >> extractor("a", elementList) filter { el => el.attr("href").contains("/beer/style") }
 
+      var abvSource = styleElements.head.parent.getElementsContainingText("ABV").last.previousSibling.outerHtml()
+      abvSource = abvSource.replace("| &nbsp;", "").trim()
+
       println("BA Rating: " + baRatingEl.html())
       println("Style: " + styleElements.head.getElementsByTag("b").head.html())
+      println("ABV: " + abvSource)
     } else
       println("Sorry I couldn't find any results for that beer. Try to be more specific.")
   }
