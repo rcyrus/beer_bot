@@ -20,8 +20,13 @@ class BeerInfoSearch {
       val beerInfoElement = initSearchResults.head.head
       val beerUrl = beerInfoElement.attr("href")
 
-      var beerPageContents = browser.get(baseUrl + beerUrl)
-      beerPageContents >> extractor("a", elementList) filter { el => el.attr("href").contains("/beer/style") } foreach println
+      val beerPageContents = browser.get(baseUrl + beerUrl)
+
+      val baRatingEl = beerPageContents >> extractor(".ba-score", element)
+      val styleElements = beerPageContents >> extractor("a", elementList) filter { el => el.attr("href").contains("/beer/style") }
+
+      println("BA Rating: " + baRatingEl.html())
+      println("Style: " + styleElements.head.getElementsByTag("b").head.html())
     } else
       println("Sorry I couldn't find any results for that beer. Try to be more specific.")
   }
