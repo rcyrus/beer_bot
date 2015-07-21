@@ -19,7 +19,7 @@ object BeerBot{
 
     val baInfo = new BeerInfoSearch
     //baInfo.getBeerInfo("Summit Extra Pale Ale")
-    baInfo.getBeerInfo("Reissdorf Kolsch")
+    baInfo.getBeerInfo("Deschutes Chainbreaker")
   }
 }
 
