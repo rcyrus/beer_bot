@@ -17,7 +17,7 @@ object BeerBot{
 //      }
 //    }
 
-    val baInfo = new BeerAdvocateInfo
+    val baInfo = new BeerInfoSearch
     baInfo.getBeerInfo("Summit Extra Pale Ale")
   }
 }

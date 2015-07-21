@@ -5,7 +5,7 @@ import net.ruippeixotog.scalascraper.scraper.ContentExtractors._
 /**
  *
  */
-class BeerAdvocateInfo {
+class BeerInfoSearch {
   private var baseUrl = "http://www.beeradvocate.com"
 
   def getBeerInfo(searchTerm: String): Unit = {
