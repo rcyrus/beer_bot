@@ -9,10 +9,8 @@ class BeerInfoSearch {
   private var baseUrl = "http://www.beeradvocate.com"
 
   def getBeerInfo(searchTerm: String): Unit = {
-    val searchTerm = "Summit+Extra+Pale+Ale"
-
     val browser = new Browser
-    val searchPageContents = browser.get(baseUrl + "/search/?q=" + searchTerm + "&qt=beer")
+    val searchPageContents = browser.get(baseUrl + "/search/?q=" + createSearchString(searchTerm) + "&qt=beer")
 
     val initSearchResults = searchPageContents >> extractor("#ba-content > div", elementList) >> extractor("a", elementList) filter { list => list.nonEmpty }
 
@@ -31,8 +29,13 @@ class BeerInfoSearch {
       println("BA Rating: " + baRatingEl.html())
       println("Style: " + styleElements.head.getElementsByTag("b").head.html())
       println("ABV: " + abvSource)
-    } else
+    } else {
       println("Sorry I couldn't find any results for that beer. Try to be more specific.")
+    }
+  }
+
+  def createSearchString(source: String): String = {
+    source.trim.replace(" ", "+")
   }
 
 }
