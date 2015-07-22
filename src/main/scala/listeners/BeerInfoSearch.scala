@@ -5,6 +5,7 @@ import net.ruippeixotog.scalascraper.browser.Browser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors._
 import org.jsoup.nodes.Document
+import slack.SlackUtil
 import slack.rtm.SlackRtmClient
 
 /**
@@ -48,10 +49,19 @@ class BeerInfoSearch extends MessageListener {
   }
 
   override def showHelp(): String = {
-    "Hi"
+    "Beer Info: @beerbot info <beer name>"
   }
 
-  override def registerHandler(client: SlackRtmClient): Unit = { }
+  override def registerHandler(client: SlackRtmClient): Unit = {
+    client.onMessage { message =>
+      val selfId = client.state.self.id
+      val mentionedIds = SlackUtil.extractMentionedIds(message.text)
+
+      if (mentionedIds.contains(selfId))  {
+        
+      }
+    }
+  }
 
   override def respond(): Unit = { }
 
