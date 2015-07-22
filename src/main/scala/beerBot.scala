@@ -1,8 +1,8 @@
+import listeners.BeerInfoSearch
 
-
-object BeerBot{
+object BeerBot {
   def main(args: Array[String]): Unit = {
-//    val token = ""
+//    val token = "xoxb-7413056195-71TJcdoFTjTIEJ6ghpvpr9wu"
 //    implicit val system = ActorSystem("slack")
 //    implicit val ec = system.dispatcher
 //

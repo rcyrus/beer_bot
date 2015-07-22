@@ -1,12 +1,16 @@
+package listeners
+
+import definition.MessageListener
 import net.ruippeixotog.scalascraper.browser.Browser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors._
 import org.jsoup.nodes.Document
+import slack.rtm.SlackRtmClient
 
 /**
  *
  */
-class BeerInfoSearch {
+class BeerInfoSearch extends MessageListener {
   private var baseUrl = "http://www.beeradvocate.com"
   private var browserParser:Browser = new Browser
 
@@ -42,5 +46,13 @@ class BeerInfoSearch {
     val ratingEl = pageContents >> extractor(".ba-score", element)
     ratingEl.html
   }
+
+  override def showHelp(): String = {
+    "Hi"
+  }
+
+  override def registerHandler(client: SlackRtmClient): Unit = { }
+
+  override def respond(): Unit = { }
 
 }
