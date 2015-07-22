@@ -5,34 +5,33 @@ import net.ruippeixotog.scalascraper.browser.Browser
 import net.ruippeixotog.scalascraper.dsl.DSL._
 import net.ruippeixotog.scalascraper.scraper.ContentExtractors._
 import org.jsoup.nodes.Document
-import slack.SlackUtil
+import slack.models.Message
 import slack.rtm.SlackRtmClient
 
 /**
  *
  */
 class BeerInfoSearch extends MessageListener {
+  override var slackClient: SlackRtmClient = _
+
   private var baseUrl = "http://www.beeradvocate.com"
   private var browserParser:Browser = new Browser
+  private var sourceMessage: Message = null
 
   override def showHelp(): String = {
     "Beer Info: @beerbot info <beer name>"
   }
 
-  override def registerHandler(client: SlackRtmClient): Unit = {
-    client.onMessage { message =>
-      val selfId = client.state.self.id
-      val mentionedIds = SlackUtil.extractMentionedIds(message.text)
-
-      if (mentionedIds.contains(selfId))  {
-
-      }
-    }
+  override def isAMatch(message: Message): Boolean = {
+    sourceMessage = message
+    true
   }
 
-  override def respond(): Unit = { }
+  override def processMessage(msgText: String): Unit = {
+    searchBeerInfo(msgText)
+  }
 
-  private def getBeerInfo(searchTerm: String): Unit = {
+  private def searchBeerInfo(searchTerm: String): Unit = {
     val searchPageContents = browserParser.get(baseUrl + "/search/?q=" + createSearchString(searchTerm) + "&qt=beer")
 
     val initSearchResults = searchPageContents >> extractor("#ba-content > div", elementList) >> extractor("a", elementList) filter { list => list.nonEmpty }
@@ -52,7 +51,8 @@ class BeerInfoSearch extends MessageListener {
       println("Style: " + styleElements.head.getElementsByTag("b").head.html())
       println("ABV: " + abvSource)
     } else {
-      println("Sorry I couldn't find any results for that beer. Try to be more specific.")
+      //println("Sorry I couldn't find any results for that beer. Try to be more specific.")
+      respond("Sorry I couldn't find any results for that beer. Try to be more specific.", sourceMessage)
     }
   }
 
