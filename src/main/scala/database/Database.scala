@@ -1,16 +1,13 @@
 package database
 
-import listeners.persistence.Location
 import sorm.{Entity, InitMode, Instance}
 
 /**
- *
+ * Database ORM primary class
  */
 object Database extends Instance (
-  entities = Set(
-    Entity[Location]()
-  ),
-  url = "jdbc:h2:mem:test",
+  entities = Set(), //TODO: Any object class you want to persist will need to be listed here
+  url = "jdbc:h2:./beerbot",
   user = "",
   password = "",
   initMode = InitMode.Create
