@@ -10,7 +10,7 @@ object BeerBot {
   )
 
   def main(args: Array[String]): Unit = {
-    val token = ""
+    val token = System.getenv("BEERBOT_TOKEN")
 
     implicit val system = ActorSystem("slack")
     implicit val ec = system.dispatcher
