@@ -19,7 +19,7 @@ class BeerInfoSearch extends MessageListener {
   private var sourceMessage: Message = null
 
   override def showHelp(): String = {
-    "*Beer Info* || Usage: \"@beerbot info <beer name>\" || Shows some interesting info about the beer and a link to more info."
+    "*Beer Info* \n|| Usage: \"@beerbot info <beer name>\" \n|| Shows some interesting info about the beer and a link to more info."
   }
 
   override def isAMatch(message: Message): Boolean = {
