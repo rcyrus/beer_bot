@@ -44,20 +44,23 @@ class BeerInfoSearch extends MessageListener {
       val beerInfoElement = initSearchResults.head.head
       val beerUrl = beerInfoElement.attr("href")
 
-      val beerPageContents = browserParser.get(baseUrl + beerUrl)
+      val fullBeerPageUrl = baseUrl + beerUrl
+      val beerPageContents = browserParser.get(fullBeerPageUrl)
 
       val styleElements = beerPageContents >> extractor("a", elementList) filter { el => el.attr("href").contains("/beer/style") }
 
       var abvSource = styleElements.head.parent.getElementsContainingText("ABV").last.previousSibling.outerHtml()
       abvSource = abvSource.replace("| &nbsp;", "").trim()
 
-      println("BA Rating: " + getBaRating(beerPageContents))
-      println("Style: " + styleElements.head.getElementsByTag("b").head.html())
-      println("ABV: " + abvSource)
-      respond("That's a really good beer choice!", sourceMessage)
+      var output = searchTerm + ":"
+      output += "\nBA Rating: " + getBaRating(beerPageContents)
+      output += "\nStyle: " + styleElements.head.getElementsByTag("b").head.html()
+      output += "\nABV: " + abvSource
+      output += "\n" + fullBeerPageUrl
+
+      respond(output, sourceMessage)
     } else {
-      //println("Sorry I couldn't find any results for that beer. Try to be more specific.")
-      respond("Sorry I couldn't find any results for that beer. Try to be more specific.", sourceMessage)
+      respond("Sorry I couldn't find any results for that beer.\nBe sure to type out the full name of the beer without abbreviations.", sourceMessage)
     }
   }
 
