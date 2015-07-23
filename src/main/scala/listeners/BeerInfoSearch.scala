@@ -9,7 +9,7 @@ import slack.models.Message
 import slack.rtm.SlackRtmClient
 
 /**
- *
+ * Beer Bot feature that allows users to find out information about a beer
  */
 class BeerInfoSearch extends MessageListener {
   override var slackClient: SlackRtmClient = _
@@ -24,11 +24,15 @@ class BeerInfoSearch extends MessageListener {
 
   override def isAMatch(message: Message): Boolean = {
     sourceMessage = message
-    true
+    val messageParts = message.text.split(" ").toList
+
+    messageParts.nonEmpty && messageParts.length > 1 && messageParts(1).trim.equals("info")
   }
 
   override def processMessage(msgText: String): Unit = {
-    searchBeerInfo(msgText)
+    val result = msgText.split(" ").toList.drop(2).mkString("", " ", "")
+
+    searchBeerInfo(result)
   }
 
   private def searchBeerInfo(searchTerm: String): Unit = {
@@ -50,6 +54,7 @@ class BeerInfoSearch extends MessageListener {
       println("BA Rating: " + getBaRating(beerPageContents))
       println("Style: " + styleElements.head.getElementsByTag("b").head.html())
       println("ABV: " + abvSource)
+      respond("That's a really good beer choice!", sourceMessage)
     } else {
       //println("Sorry I couldn't find any results for that beer. Try to be more specific.")
       respond("Sorry I couldn't find any results for that beer. Try to be more specific.", sourceMessage)

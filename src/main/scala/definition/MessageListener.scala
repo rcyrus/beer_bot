@@ -10,8 +10,14 @@ import slack.rtm.SlackRtmClient
 trait MessageListener {
   var slackClient: SlackRtmClient
 
+  /**
+   * Return some help text for the particular listener
+   */
   def showHelp(): String = "TODO: Supply help information"
 
+  /**
+   * Register this listener with beer bot and get a reference to the Slack client
+   */
   def registerHandler(client: SlackRtmClient): Unit = {
     slackClient = client
 
@@ -25,11 +31,20 @@ trait MessageListener {
     }
   }
 
+  /**
+   * Say something back into the channel where the command originated
+   */
   def respond(response: String, sourceMsg: Message): Unit = {
     slackClient.sendMessage(sourceMsg.channel, response)
   }
 
+  /**
+   * Whether or not the particular message is a match for this listener
+   */
   def isAMatch(message: Message): Boolean = false
 
+  /**
+   * Process the message that is a match for this listener
+   */
   def processMessage(msgText: String): Unit
 }
