@@ -1,6 +1,9 @@
 import akka.actor.ActorSystem
+import database.Database
+import listeners.persistence.Location
 import listeners.{BeerInfoSearch, HelpListener}
 import slack.rtm.SlackRtmClient
+import sorm.{InitMode, Entity, Instance}
 
 object BeerBot {
   //TODO: Would be nice to not have to instantiate each listener manually, but instead auto-load classes
@@ -17,12 +20,14 @@ object BeerBot {
     val rtmClient = SlackRtmClient(token)
 
     //Register all the supplied listeners with the Slack client
-    listeners.foreach(listen => listen.registerHandler(rtmClient))
+    //listeners.foreach(listen => listen.registerHandler(rtmClient))
 
     //TODO: There has got to be a better way to do this; it's kinda clunky!
-    listeners.head match {
-      case item: HelpListener => item.listeners = listeners
-    }
+//    listeners.head match {
+//      case item: HelpListener => item.listeners = listeners
+//    }
+
+    Database.save(new Location("Home"))
   }
 }
 
