@@ -22,7 +22,6 @@ class WhatsOnTapListener extends MessageListener {
    * Process the message that is a match for this listener
    */
   override def processMessage(msgText: String): Unit = {
-
     respond("No beers have been set as on tap just yet. Check back soon!", sourceMessage)
   }
 }
