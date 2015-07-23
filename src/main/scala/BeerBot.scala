@@ -1,12 +1,13 @@
 import akka.actor.ActorSystem
-import listeners.{BeerInfoSearch, HelpListener}
+import listeners.{WhatsOnTapListener, BeerInfoSearch, HelpListener}
 import slack.rtm.SlackRtmClient
 
 object BeerBot {
   //TODO: Would be nice to not have to instantiate each listener manually, but instead auto-load classes
   val listeners = List(
     new HelpListener,
-    new BeerInfoSearch
+    new BeerInfoSearch,
+    new WhatsOnTapListener
   )
 
   def main(args: Array[String]): Unit = {
